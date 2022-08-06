@@ -1,23 +1,20 @@
-package yandex.practicum.shareit.user;
+package yandex.practicum.shareit.item;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.Email;
+import yandex.practicum.shareit.request.ItemRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class User {
+public class ItemDto {
     private Long id;
     @NotBlank
     private String name;
-    @Email
+    @NotBlank
+    private String description;
     @NotNull
-    private String email;
-
-
+    private Boolean available;
+    private ItemRequest request;
 }
