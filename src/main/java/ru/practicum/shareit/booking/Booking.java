@@ -1,4 +1,4 @@
-package yandex.practicum.shareit.booking;
+package ru.practicum.shareit.booking;
 
 public class Booking {
 }

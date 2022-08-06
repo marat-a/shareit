@@ -1,4 +1,4 @@
-package yandex.practicum.shareit.user;
+package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

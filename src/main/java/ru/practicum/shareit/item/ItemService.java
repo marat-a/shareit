@@ -1,10 +1,10 @@
-package yandex.practicum.shareit.item;
+package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import yandex.practicum.shareit.exceptions.NotFoundException;
-import yandex.practicum.shareit.exceptions.ValidationException;
-import yandex.practicum.shareit.user.UserService;
+import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.exceptions.ValidationException;
+import ru.practicum.shareit.user.UserService;
 
 import java.util.List;
 

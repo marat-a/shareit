@@ -1,4 +1,4 @@
-package yandex.practicum.shareit.request;
+package ru.practicum.shareit.request;
 
 public class ItemRequest {
 }

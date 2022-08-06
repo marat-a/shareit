@@ -1,8 +1,8 @@
-package yandex.practicum.shareit.item;
+package ru.practicum.shareit.item;
 
 import org.springframework.stereotype.Repository;
-import yandex.practicum.shareit.exceptions.NotFoundException;
-import yandex.practicum.shareit.exceptions.ValidationException;
+import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.exceptions.ValidationException;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package yandex.practicum.shareit.item;
+package ru.practicum.shareit.item;
 
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package yandex.practicum.shareit.user;
+package ru.practicum.shareit.user;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,10 +1,10 @@
-package yandex.practicum.shareit.user;
+package ru.practicum.shareit.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import yandex.practicum.shareit.exceptions.ValidationException;
+import ru.practicum.shareit.exceptions.ValidationException;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package yandex.practicum.shareit.item;
+package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import yandex.practicum.shareit.user.UserService;
+import ru.practicum.shareit.user.UserService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;

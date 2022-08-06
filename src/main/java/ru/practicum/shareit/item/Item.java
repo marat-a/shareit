@@ -1,9 +1,8 @@
-package yandex.practicum.shareit.item;
+package ru.practicum.shareit.item;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import yandex.practicum.shareit.request.ItemRequest;
-import yandex.practicum.shareit.user.User;
+import ru.practicum.shareit.request.ItemRequest;
 
 @Data
 @AllArgsConstructor
