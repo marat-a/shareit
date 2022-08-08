@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class User {
     private Long id;
     @NotBlank

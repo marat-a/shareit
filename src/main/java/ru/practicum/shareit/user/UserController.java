@@ -18,6 +18,7 @@ public class UserController {
         return UserMapper.toUserDto(userService.create(UserMapper.toUser(userDto)));
     }
 
+
     @PatchMapping("/{id}")
     public UserDto edit(@RequestBody UserDto userDto, @PathVariable Long id) {
         return UserMapper.toUserDto(userService.edit(id, UserMapper.toUser(userDto)));

@@ -39,6 +39,7 @@ public class UserService {
             log.info("Создание пользователя " + user.getName());
             return userStorage.addUser(user);
         } else throw new ValidationException("Такой емэйл зарегистрирован");
+
     }
 
     public User edit(Long id, User user) {
