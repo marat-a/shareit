@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class ItemStorageInMemory implements ItemStorage {
+
     Map<Long, Map<Long, Item>> usersItemsMap = new HashMap<>();
     Long idCounter = 0L;
 
@@ -49,11 +50,7 @@ public class ItemStorageInMemory implements ItemStorage {
     @Override
     public List<Item> getItemsByUserId(long userId) {
         if (usersItemsMap.get(userId)!=null) {
-            List<Item> list = new ArrayList<>();
-            for (Item item : usersItemsMap.get(userId).values()) {
-                list.add(item);
-            }
-            return list;
+            return new ArrayList<>(usersItemsMap.get(userId).values());
         } else throw new NotFoundException("У пользователя нет добавленных вещей");
     }
 
