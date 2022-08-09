@@ -28,7 +28,7 @@ public class ItemService {
 
     public Item addItem(long userId, Item item) {
         if (userService.checkUserIsExists(userId)) {
-            item.setOwner(userId);
+            item.setOwner(userService.getUser(userId));
             return itemStorage.addItem(userId, item);
         } else throw new NotFoundException("Пользователь с таким id не найден");
     }
