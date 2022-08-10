@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping
     public UserDto create(@Valid @RequestBody UserDto userDto) {
