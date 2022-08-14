@@ -29,14 +29,14 @@ public class ItemController {
     @PostMapping
     public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") long userId,
                            @Valid @RequestBody ItemDto itemDto) {
-        return ItemMapper.toItemDto(itemService.addItem(userId, ItemMapper.toItem(itemDto, userId)));
+        return ItemMapper.toItemDto(itemService.addItem(userId, ItemMapper.toItem(itemDto, userService.getUser(userId))));
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto editItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                               @PathVariable long itemId,
                               @RequestBody ItemDto itemDto) {
-        return ItemMapper.toItemDto(itemService.updateItem(userId, itemId, ItemMapper.toItem(itemDto, userId)));
+        return ItemMapper.toItemDto(itemService.updateItem(userId, itemId, ItemMapper.toItem(itemDto, userService.getUser(userId))));
     }
 
     @GetMapping("/search")

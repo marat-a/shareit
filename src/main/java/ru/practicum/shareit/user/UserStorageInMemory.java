@@ -2,7 +2,7 @@ package ru.practicum.shareit.user;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,6 @@ import java.util.Map;
 public class UserStorageInMemory implements UserStorage{
 
     Map<Long,User> userMap = new HashMap<>();
-
 
     @Override
     public User addUser(User user) {
@@ -37,6 +36,6 @@ public class UserStorageInMemory implements UserStorage{
 
     @Override
     public List<User> getAllUser() {
-        return userMap.values().stream().toList();
+        return new ArrayList<>(userMap.values());
     }
 }

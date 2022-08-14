@@ -1,9 +1,12 @@
 package ru.practicum.shareit.item;
 
+import ru.practicum.shareit.user.User;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ItemMapper {
+
     public static ItemDto toItemDto(Item item) {
         return new ItemDto(
                 item.getId(),
@@ -14,7 +17,7 @@ public class ItemMapper {
         );
     }
 
-    public static Item toItem(ItemDto itemDto, Long owner) {
+    public static Item toItem(ItemDto itemDto, User owner) {
         return new Item(
                 itemDto.getId(),
                 owner,

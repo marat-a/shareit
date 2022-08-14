@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.exceptions.ValidationException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class ItemStorageInMemory implements ItemStorage {
+
     Map<Long, Map<Long, Item>> usersItemsMap = new HashMap<>();
     Long idCounter = 0L;
 
@@ -48,7 +50,7 @@ public class ItemStorageInMemory implements ItemStorage {
     @Override
     public List<Item> getItemsByUserId(long userId) {
         if (usersItemsMap.get(userId)!=null) {
-            return usersItemsMap.get(userId).values().stream().toList();
+            return new ArrayList<>(usersItemsMap.get(userId).values());
         } else throw new NotFoundException("У пользователя нет добавленных вещей");
     }
 
