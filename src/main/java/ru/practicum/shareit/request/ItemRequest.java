@@ -13,10 +13,12 @@ import java.time.LocalDate;
 public class ItemRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "request_id")
     private Long id;
     @NotBlank
     private String description;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn (name="requestor")
     private User requestor;
     private LocalDate created;
 }

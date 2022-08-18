@@ -17,13 +17,15 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="item_id")
-    Long id;
-    @OneToOne
-    User owner;
-    String name;
-    String description;
-    Boolean available;
-    @OneToOne
-    ItemRequest request;
+    private Long id;
+    @ManyToOne
+    @JoinColumn (name="owner")
+    private User owner;
+    private String name;
+    private String description;
+    private Boolean available;
+    @ManyToOne
+    @JoinColumn (name="item_request")
+    private ItemRequest request;
 
 }

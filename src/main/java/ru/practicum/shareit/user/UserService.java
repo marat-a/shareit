@@ -3,8 +3,8 @@ package ru.practicum.shareit.user;
 import java.util.List;
 
 public interface UserService {
-    boolean checkIsUserEmailExists(String email);
-    boolean checkUserIsExists(Long userId);
+    boolean isEmailExists(String email);
+    boolean isUserExists(Long userId);
     User create(User user);
     User edit(Long id, User user);
     void delete(Long id);

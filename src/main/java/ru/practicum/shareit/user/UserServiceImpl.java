@@ -19,24 +19,11 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public boolean checkIsUserEmailExists(String email) {
-        for (User userFromStorage : userRepository.findAll()) {
-            if (userFromStorage.getEmail().equals(email)) {
-                return false;
-            }
-        }
-        return true;
-    }
 
-    @Override
-    public boolean checkUserIsExists(Long userId) {
-        return userRepository.existsById(userId);
-    }
 
     @Override
     public User create(User user) {
-        if (checkIsUserEmailExists(user.getEmail())) {
+        if (isEmailExists(user.getEmail())) {
             log.info("Создание пользователя " + user.getName());
             return userRepository.save(user);
         } else throw new ValidationException("Такой емэйл зарегистрирован");
@@ -47,9 +34,9 @@ public class UserServiceImpl implements UserService {
     public User edit(Long id, User newUser) {
         log.info("Изменение данных пользователя c id " + id);
         User user = getUser(id);
-        if (checkUserIsExists(id)) {
+        if (isUserExists(id)) {
 
-            if (checkIsUserEmailExists(newUser.getEmail())) {
+            if (isEmailExists(newUser.getEmail())) {
                 if (newUser.getEmail() != null) {
                     user.setEmail(newUser.getEmail());
                 }
@@ -72,6 +59,16 @@ public class UserServiceImpl implements UserService {
             userRepository.deleteById(id);
 
 
+    }
+
+    @Override
+    public boolean isEmailExists(String email) {
+        return userRepository.findAll().stream().noneMatch(i -> i.getEmail().equals(email));
+    }
+
+    @Override
+    public boolean isUserExists(Long userId) {
+        return userRepository.existsById(userId);
     }
 
     @Override
