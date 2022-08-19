@@ -16,7 +16,7 @@ public class ItemServiceImpl implements ItemService {
     private final UserService userService;
 
     @Override
-    public Item addItem(long userId, Item item) {
+    public Item addItem(Long userId, Item item) {
         if (userService.isUserExists(userId)) {
             item.setOwner(userService.getUser(userId
             ));
@@ -25,7 +25,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item updateItem(long userId, long itemId, Item newItem) {
+    public Item updateItem(Long userId, Long itemId, Item newItem) {
         if (isUserAddItem(userId, itemId)) {
             Item item = getItemById(userId, itemId);
             if (newItem.getAvailable() != null) {
@@ -44,26 +44,27 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getItemsByText(long userId, String text) {
+    public List<Item> getItemsByText(Long userId, String text) {
         if (userService.isUserExists(userId)) {
             return itemRepository.findAllByNameOrDescriptionContainsIgnoreCase(text);
         } else throw new ValidationException("Пользователь с таким id не найден");
     }
 
     @Override
-    public List<Item> getItemsByUserId(long userId) {
+    public List<Item> getItemsByUserId(Long userId) {
         return itemRepository.findItemsByOwnerId(userId);
     }
 
     @Override
-    public Item getItemById(long userId, long itemId) {
+    public Item getItemById(Long userId, Long itemId) {
         if (userService.isUserExists(userId)) {
-            return itemRepository.findById(itemId);
+            return itemRepository.findById(itemId)
+                    .orElseThrow(() -> new NotFoundException("Вещь с таким id не найдена"));
         } else throw new NotFoundException("Пользователь с таким id не найден");
     }
 
     @Override
-    public boolean isUserAddItem(long userId, long itemId) {
-        return getItemById(userId, itemId).getOwner().getId() == userId;
+    public boolean isUserAddItem(Long userId, Long itemId) {
+        return getItemById(userId, itemId).getOwner().getId().equals(userId);
     }
 }

@@ -23,10 +23,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        if (isEmailExists(user.getEmail())) {
+//        if (isEmailExists(user.getEmail())) {
             log.info("Создание пользователя " + user.getName());
             return userRepository.save(user);
-        } else throw new ValidationException("Такой емэйл зарегистрирован");
+//        } else throw new ValidationException("Такой емэйл зарегистрирован");
 
     }
 

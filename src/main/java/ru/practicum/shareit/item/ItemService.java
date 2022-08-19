@@ -4,15 +4,15 @@ import java.util.List;
 
 public interface ItemService {
 
-    List<Item> getItemsByUserId(long userId);
+    List<Item> getItemsByUserId(Long userId);
 
-    Item getItemById(long userId, long itemId);
+    Item getItemById(Long userId, Long itemId);
 
-    Item addItem(long userId, Item item);
+    Item addItem(Long userId, Item item);
 
-    Item updateItem(long userId, long itemId, Item item);
+    Item updateItem(Long userId, Long itemId, Item item);
 
-    List<Item> getItemsByText(long userId, String text);
+    List<Item> getItemsByText(Long userId, String text);
 
-    boolean isUserAddItem(long userId, long itemId);
+    boolean isUserAddItem(Long userId, Long itemId);
 }
