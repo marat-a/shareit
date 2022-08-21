@@ -15,4 +15,8 @@ public interface ItemService {
     List<Item> getItemsByText(Long userId, String text);
 
     boolean isUserAddItem(Long userId, Long itemId);
+
+    boolean isItemExist (Long itemId);
+
+    Item getItem(Long itemId);
 }

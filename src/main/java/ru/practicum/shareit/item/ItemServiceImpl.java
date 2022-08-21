@@ -67,4 +67,16 @@ public class ItemServiceImpl implements ItemService {
     public boolean isUserAddItem(Long userId, Long itemId) {
         return getItemById(userId, itemId).getOwner().getId().equals(userId);
     }
+
+    @Override
+    public boolean isItemExist(Long itemId) {
+        return itemRepository.existsById(itemId);
+    }
+
+    public Item getItem(Long itemId) {
+        return itemRepository.findById(itemId).orElseThrow(()->new NotFoundException("Вещь с таким id не найдена"));
+    }
+
+
+
 }
