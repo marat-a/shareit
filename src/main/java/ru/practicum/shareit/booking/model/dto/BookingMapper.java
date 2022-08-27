@@ -2,6 +2,9 @@ package ru.practicum.shareit.booking.model.dto;
 
 import ru.practicum.shareit.booking.model.Booking;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class BookingMapper {
     public static BookingDto toBookingDto(Booking booking) {
@@ -23,9 +26,11 @@ public class BookingMapper {
         return booking;
     }
 
-//    public static List<BookingDto> getBookingDtoList(List<Booking> bookingList) {
-//        return bookingList.stream()
-//                .map(BookingMapper::toBookingDto)
-//                .collect(Collectors.toList());
-//    }
+    public static List<BookingDto> toBookingDtoList(List<Booking> bookingList) {
+        return bookingList.stream()
+                .map(BookingMapper::toBookingDto)
+                .collect(Collectors.toList());
+    }
+
+
 }

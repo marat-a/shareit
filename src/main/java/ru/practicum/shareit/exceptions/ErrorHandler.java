@@ -7,6 +7,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ErrorHandler {
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleException(StateException e) {
+        return new ErrorResponse(e.getMessage());
+    }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleValidationException(final ValidationException e) {
@@ -30,4 +37,6 @@ public class ErrorHandler {
     public String handleMethodNotAllowedException(final MethodNotAllowedException e) {
         return e.getMessage();
     }
+
+
 }
