@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +7,7 @@ import ru.practicum.shareit.request.ItemRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Setter
 @Getter
@@ -14,6 +15,9 @@ import javax.validation.constraints.NotNull;
 public class ItemDto {
 
     private Long id;
+
+
+
     @NotBlank
     private String name;
     @NotBlank
@@ -21,4 +25,7 @@ public class ItemDto {
     @NotNull
     private Boolean available;
     private ItemRequest request;
+    private List<CommentDto> comments;
+
+
 }

@@ -1,28 +1,28 @@
 package ru.practicum.shareit.booking.service;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.booking.model.Status;
+import ru.practicum.shareit.enums.Status;
 import ru.practicum.shareit.exceptions.BadRequestException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.exceptions.StateException;
-import ru.practicum.shareit.item.ItemService;
-import ru.practicum.shareit.user.UserService;
+import ru.practicum.shareit.item.service.ItemService;
+import ru.practicum.shareit.user.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
+@AllArgsConstructor
 public class BookingServiceImpl implements BookingService {
+    private  UserService userService;
+    private ItemService itemService;
+    private BookingRepository bookingRepository;
 
-    private final UserService userService;
-    private final ItemService itemService;
-    private final BookingRepository bookingRepository;
 
     @Override
     public Booking addBooking(Booking booking, Long bookerId, Long itemId) {
@@ -131,6 +131,29 @@ public class BookingServiceImpl implements BookingService {
 
     Booking getBookingById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Бронирование не найдено"));
+    }
+    @Override
+    public Booking getLastBookingByItemId(long itemId) {
+
+            return bookingRepository.findFirstByItemIdAndEndBeforeOrderByEndDesc(itemId, LocalDateTime.now());
+
+    }
+
+    @Override
+    public Booking getNextBookingByItemId(long itemId) {
+
+            return bookingRepository.findFirstByItemIdAndStartAfterOrderByStartAsc(itemId, LocalDateTime.now());
+
+    }
+
+    @Override
+    public boolean isUserBookedItem(long itemId, long userId) {
+        List<Booking> bookings = bookingRepository.findAllByBooker_IdAndItem_IdAndEndBeforeAndStatus(
+                userId,
+                itemId,
+                LocalDateTime.now(),
+                Status.APPROVED);
+        return  !bookings.isEmpty();
     }
 
 

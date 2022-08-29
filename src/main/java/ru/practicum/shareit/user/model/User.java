@@ -1,22 +1,30 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
-public class UserDto {
-
+@NoArgsConstructor
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="user_id")
     private Long id;
     @NotBlank
     private String name;
     @Email
-    @NotNull
+    @NotBlank
     private String email;
+
+
 }

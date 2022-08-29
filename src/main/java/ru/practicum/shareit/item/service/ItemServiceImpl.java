@@ -1,19 +1,36 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.exceptions.BadRequestException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.exceptions.ValidationException;
-import ru.practicum.shareit.user.UserService;
+import ru.practicum.shareit.item.CommentRepository;
+import ru.practicum.shareit.item.ItemRepository;
+import ru.practicum.shareit.item.model.Comment;
+import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
     private final UserService userService;
+    private final CommentRepository commentRepository;
+    private final BookingService bookingService;
+
+    public ItemServiceImpl(ItemRepository itemRepository, UserService userService, CommentRepository commentRepository, @Lazy BookingService bookingService) {
+        this.itemRepository = itemRepository;
+        this.userService = userService;
+        this.commentRepository = commentRepository;
+        this.bookingService = bookingService;
+    }
+
 
     @Override
     public Item addItem(Long userId, Item item) {
@@ -52,7 +69,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getItemsByUserId(Long userId) {
-        return itemRepository.findItemsByOwnerId(userId);
+
+        return itemRepository.findItemsByOwnerIdOrderById(userId);
     }
 
     @Override
@@ -76,6 +94,32 @@ public class ItemServiceImpl implements ItemService {
     public Item getItem(Long itemId) {
         return itemRepository.findById(itemId).orElseThrow(()->new NotFoundException("Вещь с таким id не найдена"));
     }
+    @Override
+    public Comment addComment(Comment comment){
+        if (bookingService.isUserBookedItem(comment.getItem().getId(), comment.getAuthor().getId())){
+            return commentRepository.save(comment);
+        } else throw new BadRequestException("Пользователь не брал вещь в аренду");
+
+    }
+
+    @Override
+    public List<Comment> getComments(long itemId){
+            return commentRepository.findAllByItemId(itemId).orElse(new ArrayList<>());
+
+    }
+
+    @Override
+    public Booking getLastBooking(long itemId){
+        return bookingService.getLastBookingByItemId(itemId);
+
+    }
+
+    @Override
+    public Booking getNextBooking(long itemId){
+        return bookingService.getNextBookingByItemId(itemId);
+
+    }
+
 
 
 
