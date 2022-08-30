@@ -13,11 +13,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class ItemDto {
-
     private Long id;
-
-
-
     @NotBlank
     private String name;
     @NotBlank
@@ -26,6 +22,4 @@ public class ItemDto {
     private Boolean available;
     private ItemRequest request;
     private List<CommentDto> comments;
-
-
 }

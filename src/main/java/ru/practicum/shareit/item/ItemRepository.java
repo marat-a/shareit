@@ -10,12 +10,11 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-
     @Query("SELECT i FROM Item AS i WHERE i.available = TRUE " +
             "AND (LOWER(i.name) LIKE LOWER(CONCAT('%', :text, '%')) OR LOWER(i.description) " +
             "LIKE LOWER(CONCAT('%', :text, '%')))")
-    List<Item> findAllByNameOrDescriptionContainsIgnoreCase(@Param("text") String text);
 
+    List<Item> findAllByNameOrDescriptionContainsIgnoreCase(@Param("text") String text);
     List<Item> findItemsByOwnerIdOrderById(Long userId);
 
 }

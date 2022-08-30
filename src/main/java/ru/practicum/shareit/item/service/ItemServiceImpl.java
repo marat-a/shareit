@@ -69,7 +69,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getItemsByUserId(Long userId) {
-
         return itemRepository.findItemsByOwnerIdOrderById(userId);
     }
 
@@ -91,36 +90,29 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.existsById(itemId);
     }
 
-    public Item getItem(Long itemId) {
-        return itemRepository.findById(itemId).orElseThrow(()->new NotFoundException("Вещь с таким id не найдена"));
-    }
     @Override
     public Comment addComment(Comment comment){
         if (bookingService.isUserBookedItem(comment.getItem().getId(), comment.getAuthor().getId())){
             return commentRepository.save(comment);
         } else throw new BadRequestException("Пользователь не брал вещь в аренду");
-
     }
 
     @Override
     public List<Comment> getComments(long itemId){
             return commentRepository.findAllByItemId(itemId).orElse(new ArrayList<>());
-
     }
 
     @Override
     public Booking getLastBooking(long itemId){
         return bookingService.getLastBookingByItemId(itemId);
-
     }
 
     @Override
     public Booking getNextBooking(long itemId){
         return bookingService.getNextBookingByItemId(itemId);
-
     }
 
-
-
-
+    public Item getItem(Long itemId) {
+        return itemRepository.findById(itemId).orElseThrow(()->new NotFoundException("Вещь с таким id не найдена"));
+    }
 }

@@ -6,10 +6,9 @@ import ru.practicum.shareit.booking.model.dto.NewBookingDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public class BookingMapper {
     public static BookingDto toBookingDto(Booking booking) {
-        if (booking!= null){
+        if (booking != null) {
             return new BookingDto(
                     booking.getId(),
                     booking.getStart(),
@@ -19,10 +18,8 @@ public class BookingMapper {
                     booking.getItem(),
                     booking.getStatus()
             );
-        } else  return null;
-
+        } else return null;
     }
-
 
     public static Booking newToBooking(NewBookingDto newBookingDto) {
         Booking booking = new Booking();
@@ -36,6 +33,4 @@ public class BookingMapper {
                 .map(BookingMapper::toBookingDto)
                 .collect(Collectors.toList());
     }
-
-
 }

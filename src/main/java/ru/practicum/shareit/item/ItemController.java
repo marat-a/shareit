@@ -3,9 +3,13 @@ package ru.practicum.shareit.item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.model.BookingMapper;
+import ru.practicum.shareit.item.model.CommentMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.ItemMapper;
-import ru.practicum.shareit.item.model.dto.*;
+import ru.practicum.shareit.item.model.dto.CommentDto;
+import ru.practicum.shareit.item.model.dto.ItemDto;
+import ru.practicum.shareit.item.model.dto.ItemForOwnerDto;
+import ru.practicum.shareit.item.model.dto.NewCommentDTO;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.service.UserService;
 
@@ -38,8 +42,7 @@ public class ItemController {
                             itemService.getComments(itemId)
                     )
             );
-        }
-        else return ItemMapper.toItemForOwnerDto(
+        } else return ItemMapper.toItemForOwnerDto(
                 itemService.getItemById(userId, itemId),
                 null,
                 null,

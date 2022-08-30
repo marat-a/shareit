@@ -17,12 +17,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class BookingController {
+
     private final BookingService bookingService;
 
     @PostMapping
     public BookingDto addBooking(@RequestHeader("X-Sharer-User-Id") long userId,
                                  @Valid @RequestBody NewBookingDto newBookingDto) {
-        log.info("Запрос на добавление бронирования. Пользователь id " + userId + ". Вещь id "+ newBookingDto.getItemId() + ".");
+        log.info("Запрос на добавление бронирования. Пользователь id " + userId + ". Вещь id " + newBookingDto.getItemId() + ".");
         return BookingMapper.toBookingDto(
                 bookingService.addBooking(
                         BookingMapper.newToBooking(newBookingDto),
@@ -36,7 +37,7 @@ public class BookingController {
     public BookingDto approveBooking(@RequestHeader("X-Sharer-User-Id") Long userId,
                                      @PathVariable Long bookingId,
                                      @RequestParam boolean approved) {
-        log.info("Запрос на подтверждение бронирования. Пользователь id "+ userId +". Бронрование id "+ bookingId +".");
+        log.info("Запрос на подтверждение бронирования. Пользователь id " + userId + ". Бронрование id " + bookingId + ".");
         return BookingMapper.toBookingDto(
                 bookingService.approveBooking(
                         userId,
@@ -48,7 +49,7 @@ public class BookingController {
     @GetMapping("/{bookingId}")
     public BookingDto getBookingById(@RequestHeader("X-Sharer-User-Id") Long userId,
                                      @PathVariable Long bookingId) {
-        log.info("Запрос бронирования id "+ bookingId +" пользователем " + userId + ".");
+        log.info("Запрос бронирования id " + bookingId + " пользователем " + userId + ".");
         return BookingMapper.toBookingDto(
                 bookingService.getBooking(
                         userId,
@@ -59,7 +60,7 @@ public class BookingController {
     @GetMapping
     public List<BookingDto> getBookingToBooker(@RequestHeader("X-Sharer-User-Id") Long userId,
                                                @RequestParam(defaultValue = "ALL") String state) {
-        log.info("Запрос списка своих бронирований со статусом "+ state +" пользователем "+ userId +".");
+        log.info("Запрос списка своих бронирований со статусом " + state + " пользователем " + userId + ".");
         return BookingMapper.toBookingDtoList(
                 bookingService.getBookingToBooker(
                         userId, state)
@@ -68,13 +69,11 @@ public class BookingController {
 
     @GetMapping("/owner")
     public List<BookingDto> getBookingToOwner(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                               @RequestParam(defaultValue = "ALL") String state) {
-        log.info("Запрос владельцем с id "+ userId +" списка бронирований со статусом "+ state +".");
+                                              @RequestParam(defaultValue = "ALL") String state) {
+        log.info("Запрос владельцем с id " + userId + " списка бронирований со статусом " + state + ".");
         return BookingMapper.toBookingDtoList(
                 bookingService.getBookingToOwner(
                         userId, state)
         );
     }
-
-
 }

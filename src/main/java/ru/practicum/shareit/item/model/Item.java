@@ -29,5 +29,4 @@ public class Item {
     @ManyToOne
     @JoinColumn (name="item_request")
     private ItemRequest request;
-
 }

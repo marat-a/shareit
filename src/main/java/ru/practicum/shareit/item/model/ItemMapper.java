@@ -3,7 +3,6 @@ package ru.practicum.shareit.item.model;
 import ru.practicum.shareit.booking.model.BookingMapper;
 import ru.practicum.shareit.booking.model.dto.BookingDto;
 import ru.practicum.shareit.item.model.dto.CommentDto;
-import ru.practicum.shareit.item.model.dto.CommentMapper;
 import ru.practicum.shareit.item.model.dto.ItemDto;
 import ru.practicum.shareit.item.model.dto.ItemForOwnerDto;
 import ru.practicum.shareit.item.service.ItemService;

@@ -21,51 +21,44 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-
-
     @Override
     public User create(User user) {
-//        if (isEmailExists(user.getEmail())) {
             log.info("Создание пользователя " + user.getName());
             return userRepository.save(user);
-//        } else throw new ValidationException("Такой емэйл зарегистрирован");
-
     }
 
     @Override
     public User edit(Long id, User newUser) {
         log.info("Изменение данных пользователя c id " + id);
         User user = getUser(id);
-        if (isUserExists(id)) {
-
+        if (!isUserExists(id)) {
+            throw new ValidationException("Пользователь с таким id  не найден");
+        }
+        if (newUser.getEmail() != null) {
             if (isEmailExists(newUser.getEmail())) {
-                if (newUser.getEmail() != null) {
-                    user.setEmail(newUser.getEmail());
-                }
-            } else throw new ValidationException("Такой емэйл зарегистрирован");
-            if (newUser.getName() != null) {
-                user.setName(newUser.getName());
+                throw new ValidationException("Такой емэйл зарегистрирован");
             }
-        } else throw new ValidationException("Пользователь с таким id  не найден");
+            user.setEmail(newUser.getEmail());
+        }
+        if (newUser.getName() != null) {
+            user.setName(newUser.getName());
+        }
         return userRepository.save(user);
     }
 
     @Override
     public void delete(Long id) {
-
-            log.info("Удаление пользователя "
-                    + userRepository
-                    .findById(id)
-                    .orElseThrow(() -> new NotFoundException("Пользователь не найден"))
-                    .getName());
-            userRepository.deleteById(id);
-
-
+        log.info("Удаление пользователя "
+                + userRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден"))
+                .getName());
+        userRepository.deleteById(id);
     }
 
     @Override
     public boolean isEmailExists(String email) {
-        return userRepository.findAll().stream().noneMatch(i -> i.getEmail().equals(email));
+        return userRepository.findAll().stream().anyMatch(i -> i.getEmail().equals(email));
     }
 
     @Override

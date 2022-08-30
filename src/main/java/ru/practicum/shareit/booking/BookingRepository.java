@@ -23,7 +23,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query ("UPDATE Booking booking SET booking.status='REJECTED' WHERE booking.id=:bookingId")
     void rejectBooking(@Param(value = "bookingId") Long bookingId);
 
-
     Optional<List<Booking>> findAllByBooker_IdOrderByStartDesc(long id);
     Optional<List<Booking>> findAllByBooker_IdAndStartAfterOrderByStartDesc(long id, LocalDateTime startTime);
     Optional<List<Booking>> findAllByBooker_IdAndEndBeforeOrderByStartDesc(long id, LocalDateTime startTime);
@@ -36,7 +35,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Optional<List<Booking>> findAllByItem_Owner_IdAndStatusEqualsOrderByStartDesc(long id, Status status);
 
     List<Booking> findAllByBooker_IdAndItem_IdAndEndBeforeAndStatus(long id, long itemId, LocalDateTime end, Status status);
-
 
     Booking findFirstByItemIdAndEndBeforeOrderByEndDesc(Long id, LocalDateTime now);
     Booking findFirstByItemIdAndStartAfterOrderByStartAsc(Long id, LocalDateTime now);
