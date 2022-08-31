@@ -1,6 +1,7 @@
 package ru.practicum.shareit.booking.service;
 
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.enums.State;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ public interface BookingService {
 
     Booking getNextBookingByItemId(long itemId);
 
-    List<Booking> getBookingToBooker(Long userId, String state);
+    List<Booking> getBookingToBooker(Long userId, State state);
 
-    List<Booking> getBookingToOwner(Long userId, String state);
+    List<Booking> getBookingToOwner(Long userId, State state);
 
     boolean isUserBookedItem(long itemId, long userId);
 

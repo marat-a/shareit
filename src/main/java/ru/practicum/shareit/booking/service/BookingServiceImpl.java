@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.enums.State;
 import ru.practicum.shareit.enums.Status;
 import ru.practicum.shareit.exceptions.BadRequestException;
 import ru.practicum.shareit.exceptions.NotFoundException;
@@ -74,20 +75,20 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getBookingToBooker(Long userId, String state) {
+    public List<Booking> getBookingToBooker(Long userId, State state) {
         if (userService.isUserExists(userId)) {
             switch (state) {
-                case "ALL":
+                case ALL:
                     return bookingRepository.findAllByBooker_IdOrderByStartDesc(userId).orElseThrow(() -> new NotFoundException("Бронирований не найдено"));
-                case "FUTURE":
+                case FUTURE:
                     return bookingRepository.findAllByBooker_IdAndStartAfterOrderByStartDesc(userId, LocalDateTime.now()).orElseThrow(() -> new NotFoundException("Бронирований FUTURE не найдено"));
-                case "CURRENT":
+                case CURRENT:
                     return bookingRepository.findAllByBooker_IdAndStartBeforeAndEndAfterOrderByStartDesc(userId, LocalDateTime.now(), LocalDateTime.now()).orElseThrow(() -> new NotFoundException("Бронирований CURRENT не найдено"));
-                case "PAST":
+                case PAST:
                     return bookingRepository.findAllByBooker_IdAndEndBeforeOrderByStartDesc(userId, LocalDateTime.now()).orElseThrow(() -> new NotFoundException("Бронирований PAST не найдено"));
-                case "REJECTED":
-                case "WAITING":
-                    return bookingRepository.findAllByBooker_IdAndStatusEqualsOrderByStartDesc(userId, Status.valueOf(state)).orElseThrow(() -> new NotFoundException("Бронирований REJECTED или WAITING не найдено"));
+                case REJECTED:
+                case WAITING:
+                    return bookingRepository.findAllByBooker_IdAndStatusEqualsOrderByStartDesc(userId, Status.valueOf(state.toString())).orElseThrow(() -> new NotFoundException("Бронирований REJECTED или WAITING не найдено"));
                 default:
                     throw new StateException("Unknown state: " + state);
             }
@@ -95,20 +96,20 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getBookingToOwner(Long userId, String state) {
+    public List<Booking> getBookingToOwner(Long userId, State state) {
         if (userService.isUserExists(userId)) {
             switch (state) {
-                case "ALL":
+                case ALL:
                     return bookingRepository.findAllByItem_Owner_IdOrderByStartDesc(userId).orElseThrow(() -> new NotFoundException("Бронирований не найдено"));
-                case "FUTURE":
+                case FUTURE:
                     return bookingRepository.findAllByItem_Owner_IdAndStartAfterOrderByStartDesc(userId, LocalDateTime.now()).orElseThrow(() -> new NotFoundException("Бронирований FUTURE не найдено"));
-                case "CURRENT":
+                case CURRENT:
                     return bookingRepository.findAllByItem_Owner_IdAndStartBeforeAndEndAfterOrderByStartDesc(userId, LocalDateTime.now(), LocalDateTime.now()).orElseThrow(() -> new NotFoundException("Бронирований CURRENT не найдено"));
-                case "PAST":
+                case PAST:
                     return bookingRepository.findAllByItem_Owner_IdAndEndBeforeOrderByStartDesc(userId, LocalDateTime.now()).orElseThrow(() -> new NotFoundException("Бронирований PAST не найдено"));
-                case "REJECTED":
-                case "WAITING":
-                    return bookingRepository.findAllByItem_Owner_IdAndStatusEqualsOrderByStartDesc(userId, toState(state)).orElseThrow(() -> new NotFoundException("Бронирований REJECTED или WAITING не найдено"));
+                case REJECTED:
+                case WAITING:
+                    return bookingRepository.findAllByItem_Owner_IdAndStatusEqualsOrderByStartDesc(userId, Status.valueOf(state.toString())).orElseThrow(() -> new NotFoundException("Бронирований REJECTED или WAITING не найдено"));
                 default:
                     throw new StateException("Unknown state: " + state);
             }
@@ -133,9 +134,5 @@ public class BookingServiceImpl implements BookingService {
     public boolean isUserBookedItem(long itemId, long userId) {
         List<Booking> bookings = bookingRepository.findAllByBooker_IdAndItem_IdAndEndBeforeAndStatus(userId, itemId, LocalDateTime.now(), Status.APPROVED);
         return !bookings.isEmpty();
-    }
-
-    Status toState(String state) {
-        return Status.valueOf(state);
     }
 }

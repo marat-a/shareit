@@ -8,6 +8,8 @@ import ru.practicum.shareit.booking.model.BookingMapper;
 import ru.practicum.shareit.booking.model.dto.BookingDto;
 import ru.practicum.shareit.booking.model.dto.NewBookingDto;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.enums.State;
+import ru.practicum.shareit.exceptions.StateException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -63,7 +65,7 @@ public class BookingController {
         log.info("Запрос списка своих бронирований со статусом " + state + " пользователем " + userId + ".");
         return BookingMapper.toBookingDtoList(
                 bookingService.getBookingToBooker(
-                        userId, state)
+                        userId, toState(state))
         );
     }
 
@@ -73,7 +75,15 @@ public class BookingController {
         log.info("Запрос владельцем с id " + userId + " списка бронирований со статусом " + state + ".");
         return BookingMapper.toBookingDtoList(
                 bookingService.getBookingToOwner(
-                        userId, state)
+                        userId, toState(state))
         );
+    }
+
+    private State toState(String state) {
+        try {
+            return State.valueOf(state);
+        } catch (IllegalArgumentException e) {
+            throw new StateException("Unknown state: " + state);
+        }
     }
 }
