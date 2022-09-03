@@ -8,11 +8,11 @@ import ru.practicum.shareit.booking.model.BookingMapper;
 import ru.practicum.shareit.booking.model.dto.BookingDto;
 import ru.practicum.shareit.booking.model.dto.NewBookingDto;
 import ru.practicum.shareit.booking.service.BookingService;
-import ru.practicum.shareit.enums.State;
-import ru.practicum.shareit.exceptions.StateException;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static ru.practicum.shareit.enums.State.toState;
 
 @RestController
 @RequestMapping("/bookings")
@@ -79,11 +79,5 @@ public class BookingController {
         );
     }
 
-    private State toState(String state) {
-        try {
-            return State.valueOf(state);
-        } catch (IllegalArgumentException e) {
-            throw new StateException("Unknown state: " + state);
-        }
-    }
+
 }
