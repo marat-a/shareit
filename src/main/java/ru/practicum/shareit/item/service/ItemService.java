@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ItemService {
 
-    List<Item> getItemsByUserId(Long userId);
+    List<Item> getItemsByUserId(Long userId, int from, int size);
 
     Item getItemById(Long userId, Long itemId);
 
@@ -16,7 +16,7 @@ public interface ItemService {
 
     Item updateItem(Long userId, Long itemId, Item item);
 
-    List<Item> getItemsByText(Long userId, String text);
+    List<Item> getItemsByText(Long userId, String text, int from, int size);
 
     boolean isUserAddItem(Long userId, Long itemId);
 

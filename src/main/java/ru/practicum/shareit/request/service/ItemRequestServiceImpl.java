@@ -2,11 +2,12 @@ package ru.practicum.shareit.request.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.request.ItemRequestRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.service.UserService;
 
 import java.time.LocalDateTime;
@@ -30,9 +31,12 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    public ItemRequest getRequest(long itemRequestId) {
-        return itemRequestRepository.findById(itemRequestId)
-                .orElseThrow(() -> new NotFoundException("Запрос с id " + itemRequestId + " не найден"));
+    public ItemRequest getRequest(long userId, long itemRequestId) {
+        if (userService.isUserExists(userId)){
+            return itemRequestRepository.findById(itemRequestId)
+                    .orElseThrow(() -> new NotFoundException("Запрос с id " + itemRequestId + " не найден"));
+        }
+        else throw new NotFoundException("Пользователь с id " + userId + " не найден");
     }
 
     @Override
@@ -40,6 +44,13 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         if (userService.isUserExists(userId)) {
             return itemRequestRepository.findItemRequestsByRequestor_IdOrderByCreated(userId);
         } else throw new NotFoundException("Пользователь с id " + userId + " не найден");
+    }
+
+    @Override
+    public List<ItemRequest> getAllItemRequests(long userId, int from, int size) {
+        PageRequest pageRequest = PageRequest.of(from/size, size);
+        return itemRequestRepository.findAllByRequestor_IdNot(userId, pageRequest).getContent();
+
     }
 
 }

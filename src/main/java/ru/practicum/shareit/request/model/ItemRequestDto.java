@@ -1,4 +1,4 @@
-package ru.practicum.shareit.request;
+package ru.practicum.shareit.request.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +17,5 @@ public class ItemRequestDto {
     @NotBlank
     private String description;
     private LocalDateTime created;
-    private List<ItemDto> itemList;
+    private List<ItemDto> items;
 }

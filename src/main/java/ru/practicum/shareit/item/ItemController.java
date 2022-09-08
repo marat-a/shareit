@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.model.BookingMapper;
 import ru.practicum.shareit.item.model.CommentMapper;
@@ -11,24 +12,26 @@ import ru.practicum.shareit.item.model.dto.ItemDto;
 import ru.practicum.shareit.item.model.dto.ItemForOwnerDto;
 import ru.practicum.shareit.item.model.dto.NewCommentDTO;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.service.UserService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
+@Validated
 public class ItemController {
     private final ItemService itemService;
     private final UserService userService;
-    private final ItemRequestService itemRequestService;
 
     @GetMapping
-    public List<ItemForOwnerDto> getItems(@RequestHeader("X-Sharer-User-Id") long userId) {
-        List<Item> items = itemService.getItemsByUserId(userId);
+    public List<ItemForOwnerDto> getItems(@RequestHeader("X-Sharer-User-Id") long userId,
+                                          @RequestParam (defaultValue = "0", required = false) @Min(value = 0, message = "From must be equal or more than 0")int from,
+                                          @RequestParam (defaultValue = "10", required = false) @Min(value = 1, message = "Size must be more than 0") int size) {
+        List<Item> items = itemService.getItemsByUserId(userId, from, size);
         return ItemMapper.toItemForOwnerDtoList(items, itemService);
     }
 
@@ -76,11 +79,13 @@ public class ItemController {
 
     @GetMapping("/search")
     public List<ItemDto> getItemsByText(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                        @RequestParam String text) {
+                                        @RequestParam String text,
+                                        @RequestParam (defaultValue = "0", required = false) @Min(value = 0, message = "From must be equal or more than 0")int from,
+                                        @RequestParam (defaultValue = "10", required = false) @Min(value = 1, message = "Size must be more than 0") int size) {
         if (text.isBlank()) {
             return new ArrayList<>();
         }
-        return ItemMapper.toItemDtoList(itemService.getItemsByText(userId, text));
+        return ItemMapper.toItemDtoList(itemService.getItemsByText(userId, text, from, size));
     }
 
     @PostMapping("/{itemId}/comment")

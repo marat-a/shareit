@@ -1,21 +1,29 @@
-package ru.practicum.shareit.request;
+package ru.practicum.shareit.request.model;
 
 
-import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.ItemMapper;
 import ru.practicum.shareit.item.service.ItemService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ItemRequestMapper {
 
-    public static ItemRequestDto toItemRequestDto(ItemRequest itemRequest, List<Item> itemList) {
+    public static ItemRequestDto toItemRequestDto(ItemRequest itemRequest, ItemService itemService) {
         return new ItemRequestDto(
                 itemRequest.getId(),
                 itemRequest.getDescription(),
                 itemRequest.getCreated(),
-                ItemMapper.toItemDtoList(itemList));
+                ItemMapper.toItemDtoList(itemService.getItemByItemRequestId(itemRequest.getId())));
+    }
+
+    public static ItemRequestDto toItemRequestDto(ItemRequest itemRequest) {
+        return new ItemRequestDto(
+                itemRequest.getId(),
+                itemRequest.getDescription(),
+                itemRequest.getCreated(),
+                new ArrayList<>());
     }
 
     public static ItemRequest toItemRequest(ItemRequestDto itemRequestDto) {
@@ -27,7 +35,7 @@ public class ItemRequestMapper {
     public static List<ItemRequestDto> toItemRequestDtoList(List<ItemRequest> itemRequestList, ItemService itemService) {
 
         return itemRequestList.stream()
-                .map((ItemRequest itemRequest) -> toItemRequestDto(itemRequest,itemService.getItemByItemRequestId(itemRequest.getId())))
+                .map((ItemRequest itemRequest) -> toItemRequestDto(itemRequest,itemService))
                 .collect(Collectors.toList());
     }
 
