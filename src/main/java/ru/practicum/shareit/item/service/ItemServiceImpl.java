@@ -11,6 +11,7 @@ import ru.practicum.shareit.item.CommentRepository;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.service.UserService;
 
 import java.util.ArrayList;
@@ -23,20 +24,24 @@ public class ItemServiceImpl implements ItemService {
     private final UserService userService;
     private final CommentRepository commentRepository;
     private final BookingService bookingService;
+    private final ItemRequestService itemRequestService;
 
-    public ItemServiceImpl(ItemRepository itemRepository, UserService userService, CommentRepository commentRepository, @Lazy BookingService bookingService) {
+    public ItemServiceImpl(ItemRepository itemRepository, UserService userService, CommentRepository commentRepository, @Lazy BookingService bookingService, @Lazy ItemRequestService itemRequestService) {
         this.itemRepository = itemRepository;
         this.userService = userService;
         this.commentRepository = commentRepository;
         this.bookingService = bookingService;
+        this.itemRequestService = itemRequestService;
     }
 
 
     @Override
-    public Item addItem(Long userId, Item item) {
+    public Item addItem(Long userId, Item item, Long requestId) {
         if (userService.isUserExists(userId)) {
-            item.setOwner(userService.getUser(userId
-            ));
+            item.setOwner(userService.getUser(userId));
+            if (requestId != null){
+                item.setRequest(itemRequestService.getRequest(requestId));
+            }
             return itemRepository.save(item);
         } else throw new NotFoundException("Пользователь с таким id не найден");
     }
@@ -110,6 +115,11 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Booking getNextBooking(long itemId){
         return bookingService.getNextBookingByItemId(itemId);
+    }
+
+    @Override
+    public List<Item> getItemByItemRequestId(long requestId) {
+        return itemRepository.findAllByRequestId(requestId);
     }
 
     public Item getItem(Long itemId) {

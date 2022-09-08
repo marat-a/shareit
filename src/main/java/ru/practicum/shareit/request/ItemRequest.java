@@ -6,7 +6,7 @@ import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,8 +19,8 @@ public class ItemRequest {
     private Long id;
     @NotBlank
     private String description;
-    @ManyToOne
+    @OneToOne
     @JoinColumn (name="requestor_id")
     private User requestor;
-    private final LocalDate created = LocalDate.now();
+    private LocalDateTime created;
 }

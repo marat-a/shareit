@@ -29,4 +29,12 @@ public class Item {
     @ManyToOne
     @JoinColumn (name="item_request")
     private ItemRequest request;
+
+    public Item(Long id, User owner, String name, String description, Boolean available) {
+        this.id = id;
+        this.owner = owner;
+        this.name = name;
+        this.description = description;
+        this.available = available;
+    }
 }

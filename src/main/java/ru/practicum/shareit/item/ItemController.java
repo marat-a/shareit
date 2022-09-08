@@ -11,6 +11,7 @@ import ru.practicum.shareit.item.model.dto.ItemDto;
 import ru.practicum.shareit.item.model.dto.ItemForOwnerDto;
 import ru.practicum.shareit.item.model.dto.NewCommentDTO;
 import ru.practicum.shareit.item.service.ItemService;
+import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.service.UserService;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
     private final UserService userService;
+    private final ItemRequestService itemRequestService;
 
     @GetMapping
     public List<ItemForOwnerDto> getItems(@RequestHeader("X-Sharer-User-Id") long userId) {
@@ -55,14 +57,10 @@ public class ItemController {
     @PostMapping
     public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                            @Valid @RequestBody ItemDto itemDto) {
-        return ItemMapper.toItemDto(itemService.addItem(
-                        userId,
-                        ItemMapper.toItem(
-                                itemDto,
-                                userService.getUser(userId))
-                ),
-                new ArrayList<>()
-        );
+
+        Item newItem = ItemMapper.toItem(itemDto);
+        Item itemFromDb = itemService.addItem(userId, newItem, itemDto.getRequestId());
+        return ItemMapper.toItemDto(itemFromDb);
     }
 
     @PatchMapping("/{itemId}")
@@ -72,7 +70,8 @@ public class ItemController {
         return ItemMapper.toItemDto(itemService.updateItem(
                 userId,
                 itemId,
-                ItemMapper.toItem(itemDto, userService.getUser(userId))), CommentMapper.toCommentDtoList(itemService.getComments(itemId)));
+                ItemMapper.toItem(itemDto)
+        ), CommentMapper.toCommentDtoList(itemService.getComments(itemId)));
     }
 
     @GetMapping("/search")

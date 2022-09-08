@@ -12,7 +12,7 @@ public interface ItemService {
 
     Item getItemById(Long userId, Long itemId);
 
-    Item addItem(Long userId, Item item);
+    Item addItem(Long userId, Item item, Long requestId);
 
     Item updateItem(Long userId, Long itemId, Item item);
 
@@ -31,4 +31,7 @@ public interface ItemService {
     Booking getLastBooking(long itemId);
 
     Booking getNextBooking(long itemId);
+
+    List<Item> getItemByItemRequestId (long requestId);
+
 }

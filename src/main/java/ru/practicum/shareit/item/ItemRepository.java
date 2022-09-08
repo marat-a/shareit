@@ -7,7 +7,6 @@ import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
 
-
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Query("SELECT i FROM Item AS i WHERE i.available = TRUE " +
@@ -16,5 +15,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findAllByNameOrDescriptionContainsIgnoreCase(@Param("text") String text);
     List<Item> findItemsByOwnerIdOrderById(Long userId);
-
+    List<Item> findAllByRequestId(long requestId);
 }

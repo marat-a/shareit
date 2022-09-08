@@ -1,18 +1,26 @@
 package ru.practicum.shareit.item.model;
 
+import lombok.AllArgsConstructor;
 import ru.practicum.shareit.booking.model.BookingMapper;
 import ru.practicum.shareit.booking.model.dto.BookingDto;
 import ru.practicum.shareit.item.model.dto.CommentDto;
 import ru.practicum.shareit.item.model.dto.ItemDto;
 import ru.practicum.shareit.item.model.dto.ItemForOwnerDto;
+import ru.practicum.shareit.item.model.dto.ShortItemDto;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.request.service.ItemRequestService;
+import ru.practicum.shareit.user.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class ItemMapper {
+
+    private final UserService userService;
+    private final ItemService itemService;
+    private  final ItemRequestService itemRequestService;
 
 
     public static ItemDto toItemDto(Item item, List<CommentDto> comments) {
@@ -21,7 +29,7 @@ public class ItemMapper {
                 item.getName(),
                 item.getDescription(),
                 item.getAvailable(),
-                item.getRequest(),
+                item.getRequest() == null ? null : item.getRequest().getId(),
                 comments
         );
     }
@@ -31,7 +39,7 @@ public class ItemMapper {
                 item.getName(),
                 item.getDescription(),
                 item.getAvailable(),
-                item.getRequest(),
+                item.getRequest() == null ? null : item.getRequest().getId(),
                 new ArrayList<>()
         );
     }
@@ -49,16 +57,12 @@ public class ItemMapper {
         );
     }
 
-
-    public static Item toItem(ItemDto itemDto, User owner) {
-        return new Item(
-                itemDto.getId(),
-                owner,
-                itemDto.getName(),
-                itemDto.getDescription(),
-                itemDto.getAvailable(),
-                itemDto.getRequest()
-        );
+    public static Item toItem(ItemDto itemDto) {
+        Item item = new Item();
+        item.setDescription(itemDto.getDescription());
+        item.setName(itemDto.getName());
+        item.setAvailable(itemDto.getAvailable());
+        return item;
     }
 
     public static List<ItemForOwnerDto> toItemForOwnerDtoList(List<Item> itemList, ItemService itemService) {
@@ -69,9 +73,24 @@ public class ItemMapper {
                         CommentMapper.toCommentDtoList(itemService.getComments(item.getId()))))
                 .collect(Collectors.toList());
     }
+
     public static List<ItemDto> toItemDtoList(List<Item> itemList) {
         return itemList.stream()
                 .map(ItemMapper::toItemDto)
+                .collect(Collectors.toList());
+    }
+
+    public static ShortItemDto toShortItemDto(Item item) {
+        return new ShortItemDto(
+                item.getId(),
+                item.getName(),
+                item.getDescription()
+        );
+    }
+
+    public static List<ShortItemDto> toShortItemDtoList(List<Item> itemList) {
+        return itemList.stream()
+                .map(ItemMapper::toShortItemDto)
                 .collect(Collectors.toList());
     }
 }
