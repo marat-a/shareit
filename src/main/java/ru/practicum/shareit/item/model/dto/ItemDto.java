@@ -1,16 +1,17 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.model.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import ru.practicum.shareit.request.ItemRequest;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 public class ItemDto {
-
     private Long id;
     @NotBlank
     private String name;
@@ -18,5 +19,6 @@ public class ItemDto {
     private String description;
     @NotNull
     private Boolean available;
-    private ItemRequest request;
+    private Long requestId;
+    private List<CommentDto> comments;
 }
