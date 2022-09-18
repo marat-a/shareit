@@ -34,4 +34,5 @@ public interface ItemService {
 
     List<Item> getItemByItemRequestId (long requestId);
 
+    List<Item> getItemsByUserId(Long id);
 }

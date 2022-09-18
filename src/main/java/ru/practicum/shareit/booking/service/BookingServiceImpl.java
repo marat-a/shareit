@@ -119,7 +119,7 @@ public class BookingServiceImpl implements BookingService {
         } else throw new NotFoundException("Пользователь не найден");
     }
 
-    Booking getBookingById(Long bookingId) {
+    public Booking getBookingById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Бронирование не найдено"));
     }
 

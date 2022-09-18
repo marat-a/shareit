@@ -125,6 +125,11 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.findAllByRequestId(requestId);
     }
 
+    @Override
+    public List<Item> getItemsByUserId(Long id) {
+        return itemRepository.findItemsByOwnerId(id);
+    }
+
     public Item getItem(Long itemId) {
         return itemRepository.findById(itemId).orElseThrow(()->new NotFoundException("Вещь с таким id не найдена"));
     }

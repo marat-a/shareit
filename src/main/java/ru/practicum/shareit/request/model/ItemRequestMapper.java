@@ -3,8 +3,8 @@ package ru.practicum.shareit.request.model;
 
 import ru.practicum.shareit.item.model.ItemMapper;
 import ru.practicum.shareit.item.service.ItemService;
+import ru.practicum.shareit.user.model.UserMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +14,7 @@ public class ItemRequestMapper {
         return new ItemRequestDto(
                 itemRequest.getId(),
                 itemRequest.getDescription(),
+                UserMapper.toUserDto(itemRequest.getRequestor()),
                 itemRequest.getCreated(),
                 ItemMapper.toItemDtoList(itemService.getItemByItemRequestId(itemRequest.getId())));
     }
@@ -22,8 +23,9 @@ public class ItemRequestMapper {
         return new ItemRequestDto(
                 itemRequest.getId(),
                 itemRequest.getDescription(),
+                UserMapper.toUserDto(itemRequest.getRequestor()),
                 itemRequest.getCreated(),
-                new ArrayList<>());
+                null);
     }
 
     public static ItemRequest toItemRequest(ItemRequestDto itemRequestDto) {
