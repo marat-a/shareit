@@ -23,6 +23,7 @@ import ru.practicum.shareit.user.service.UserService;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -39,7 +40,7 @@ class ItemControllerTest {
     private final User user1 = new User(1L, "Eugene", "eugene@mail.ru");
     private final User user2 = new User(2L, "Petr", "petr@mail.ru");
     private final Item item1 = new Item(1L, user1, "перфоратор", "мощный перфоратор", true, null);
-    private final Comment comment1 = new Comment(1L, "перфатор в хорошем  состоянии", item1, user2, LocalDateTime.now());
+    private final Comment comment1 = new Comment(1L, "перфатор в хорошем  состоянии", item1, user2, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
     private final Item item2 = new Item(2L, user1, "стульчик для кормления", "детский стульчик", true, null);
     @Autowired
     ObjectMapper mapper;
@@ -189,6 +190,6 @@ class ItemControllerTest {
                 .andExpect(jsonPath("$.id", is(comment1.getId()), Long.class))
                 .andExpect(jsonPath("$.text", is(comment1.getText())))
                 .andExpect(jsonPath("$.authorName", is(comment1.getAuthor().getName())))
-                .andExpect(jsonPath("$.created", is(comment1.getCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS")))));
+                .andExpect(jsonPath("$.created", is(comment1.getCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")))));
     }
 }
