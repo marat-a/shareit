@@ -12,6 +12,8 @@ import ru.practicum.shareit.booking.service.BookingService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 import static ru.practicum.shareit.enums.State.toState;
@@ -65,8 +67,8 @@ public class BookingController {
     @GetMapping
     public List<BookingDto> getBookingToBooker(@RequestHeader("X-Sharer-User-Id") Long userId,
                                                @RequestParam(defaultValue = "ALL") String state,
-                                               @RequestParam (defaultValue = "0", required = false) @Min(value = 0, message = "From must be equal or more than 0")int from,
-                                               @RequestParam (defaultValue = "10", required = false) @Min(value = 1, message = "Size must be more than 0") int size) {
+                                               @RequestParam (defaultValue = "0", required = false) @PositiveOrZero int from,
+                                               @RequestParam (defaultValue = "10", required = false) @Positive int size) {
         log.info("Запрос списка своих бронирований со статусом " + state + " пользователем " + userId + ".");
         return BookingMapper.toBookingDtoList(
                 bookingService.getBookingToBooker(

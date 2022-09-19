@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.booking.service.BookingService;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ComponentScan("ru.practicum.shareit.user")
+@AutoConfigureMockMvc
 @WebMvcTest(controllers = ItemController.class)
 class ItemControllerTest {
 
@@ -189,6 +189,6 @@ class ItemControllerTest {
                 .andExpect(jsonPath("$.id", is(comment1.getId()), Long.class))
                 .andExpect(jsonPath("$.text", is(comment1.getText())))
                 .andExpect(jsonPath("$.authorName", is(comment1.getAuthor().getName())))
-                .andExpect(jsonPath("$.created", is(comment1.getCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")))));
+                .andExpect(jsonPath("$.created", is(comment1.getCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS")))));
     }
 }
