@@ -29,8 +29,10 @@ public class CommentMapper {
     }
 
     public static List<CommentDto> toCommentDtoList(List<Comment> commentList) {
+        if (commentList != null)
         return commentList.stream()
                 .map(CommentMapper::toCommentDto)
                 .collect(Collectors.toList());
+        else return null;
     }
 }

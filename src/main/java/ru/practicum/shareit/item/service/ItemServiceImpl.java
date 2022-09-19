@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.service;
 
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.service.BookingService;
@@ -40,7 +41,7 @@ public class ItemServiceImpl implements ItemService {
         if (userService.isUserExists(userId)) {
             item.setOwner(userService.getUser(userId));
             if (requestId != null){
-                item.setRequest(itemRequestService.getRequest(requestId));
+                item.setRequest(itemRequestService.getRequest(userId, requestId));
             }
             return itemRepository.save(item);
         } else throw new NotFoundException("Пользователь с таким id не найден");
@@ -66,15 +67,17 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getItemsByText(Long userId, String text) {
+    public List<Item> getItemsByText(Long userId, String text, int from, int size) {
         if (userService.isUserExists(userId)) {
-            return itemRepository.findAllByNameOrDescriptionContainsIgnoreCase(text);
+            PageRequest pageRequest = PageRequest.of(from/size, size);
+            return itemRepository.findAllByNameOrDescriptionContainsIgnoreCase(text, pageRequest);
         } else throw new ValidationException("Пользователь с таким id не найден");
     }
 
     @Override
-    public List<Item> getItemsByUserId(Long userId) {
-        return itemRepository.findItemsByOwnerIdOrderById(userId);
+    public List<Item> getItemsByUserId(Long userId, int from, int size) {
+        PageRequest pageRequest = PageRequest.of(from/size, size);
+        return itemRepository.findItemsByOwnerIdOrderById(userId, pageRequest);
     }
 
     @Override
@@ -120,6 +123,11 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getItemByItemRequestId(long requestId) {
         return itemRepository.findAllByRequestId(requestId);
+    }
+
+    @Override
+    public List<Item> getItemsByUserId(Long id) {
+        return itemRepository.findItemsByOwnerId(id);
     }
 
     public Item getItem(Long itemId) {

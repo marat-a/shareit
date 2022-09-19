@@ -66,18 +66,22 @@ public class ItemMapper {
     }
 
     public static List<ItemForOwnerDto> toItemForOwnerDtoList(List<Item> itemList, ItemService itemService) {
+        if (itemList!=null)
         return itemList.stream()
                 .map((Item item) -> toItemForOwnerDto(item,
                         BookingMapper.toBookingDto(itemService.getLastBooking(item.getId())),
                         BookingMapper.toBookingDto(itemService.getNextBooking(item.getId())),
                         CommentMapper.toCommentDtoList(itemService.getComments(item.getId()))))
                 .collect(Collectors.toList());
+        else return null;
     }
 
     public static List<ItemDto> toItemDtoList(List<Item> itemList) {
+        if (itemList!=null)
         return itemList.stream()
                 .map(ItemMapper::toItemDto)
                 .collect(Collectors.toList());
+        else return null;
     }
 
     public static ShortItemDto toShortItemDto(Item item) {
@@ -89,8 +93,10 @@ public class ItemMapper {
     }
 
     public static List<ShortItemDto> toShortItemDtoList(List<Item> itemList) {
+        if (itemList!=null)
         return itemList.stream()
                 .map(ItemMapper::toShortItemDto)
                 .collect(Collectors.toList());
+        else  return null;
     }
 }
