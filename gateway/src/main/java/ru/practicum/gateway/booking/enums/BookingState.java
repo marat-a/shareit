@@ -1,7 +1,7 @@
 package ru.practicum.gateway.booking.enums;
 
 
-import ru.practicum.gateway.common.exceptions.BadRequestException;
+import ru.practicum.gateway.common.exceptions.StateException;
 
 public enum BookingState {
 	// Все
@@ -17,12 +17,12 @@ public enum BookingState {
 	// Ожидающие подтверждения
 	WAITING;
 
-	public static BookingState from(String stringState) {
-		for (BookingState state : values()) {
-			if (state.name().equalsIgnoreCase(stringState)) {
-				return state;
-			}
+
+	public static BookingState from(String state) {
+		try {
+			return BookingState.valueOf(state);
+		} catch (IllegalArgumentException e) {
+			throw new StateException("Unknown state: " + state);
 		}
-		throw new BadRequestException("Unknown state: " + stringState);
 	}
 }

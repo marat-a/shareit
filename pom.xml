@@ -70,15 +70,16 @@
 						</execution>
 					</executions>
 					<dependencies>
+						<!-- https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle -->
 						<dependency>
 							<groupId>com.puppycrawl.tools</groupId>
 							<artifactId>checkstyle</artifactId>
-							<version>10.3</version>
+							<version>10.3.3</version>
 						</dependency>
 					</dependencies>
 				</plugin>
 				<plugin>
-					<groupId>com.github.spotbugs</groupId>
+					<groupId>com.GitHub.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
 					<version>4.7.0.0</version>
 					<configuration>

@@ -19,8 +19,8 @@ import javax.validation.constraints.Min;
 @Slf4j
 @Validated
 public class ItemController {
-    public final ItemClient itemClient;
-    public final UserClient userClient;
+    private final ItemClient itemClient;
+    private final UserClient userClient;
 
     @GetMapping
     public ResponseEntity<Object> getItems(

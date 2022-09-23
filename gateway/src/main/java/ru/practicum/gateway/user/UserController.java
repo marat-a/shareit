@@ -38,12 +38,12 @@ public class UserController {
 
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<Object> edit(@Valid @RequestBody UserDto userDto, @PathVariable Long userId) {
+    public ResponseEntity<Object> edit(@RequestBody UserDto userDto, @PathVariable Long userId) {
         return userClient.updateUser(userId, userDto);
     }
 
     @DeleteMapping("/{userId}")
-    public void delete(@PathVariable Long userId) {
-        userClient.deleteUser(userId);
+    public ResponseEntity<Object> delete(@PathVariable Long userId) {
+        return userClient.deleteUser(userId);
     }
 }

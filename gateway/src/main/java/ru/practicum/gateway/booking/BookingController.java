@@ -22,16 +22,16 @@ import static ru.practicum.gateway.booking.enums.BookingState.from;
 @Slf4j
 @Validated
 public class BookingController {
-    BookingClient bookingClient;
+    private final BookingClient bookingClient;
 
     @GetMapping
     public ResponseEntity<Object> getBookings(
             @RequestHeader("X-Sharer-User-Id") long userId,
-            @RequestParam(name = "state", defaultValue = "all") String stateParam,
+            @RequestParam(name = "state", defaultValue = "ALL") String state,
             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
-        log.info("Get booking with state {}, userId={}, from={}, size={}", stateParam, userId, from, size);
-        return bookingClient.getBookings(userId, from(stateParam), from, size);
+        log.info("Get booking with state {}, userId={}, from={}, size={}", state, userId, from, size);
+        return bookingClient.getBookings(userId, from(state), from, size);
     }
 
     @GetMapping("/{bookingId}")
