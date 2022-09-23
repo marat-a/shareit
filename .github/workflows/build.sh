@@ -1,1 +1,3 @@
-mvn verify -P check
+cp -rf ./tests/checkstyle.xml ./checkstyle.xml
+mvn verify -P check,coverage --no-transfer-progress
+docker-compose build
