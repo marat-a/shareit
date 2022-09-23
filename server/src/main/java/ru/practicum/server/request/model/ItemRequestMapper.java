@@ -37,9 +37,7 @@ public class ItemRequestMapper {
     public static List<ItemRequestDto> toItemRequestDtoList(List<ItemRequest> itemRequestList, ItemService itemService) {
 
         return itemRequestList.stream()
-                .map((ItemRequest itemRequest) -> toItemRequestDto(itemRequest,itemService))
+                .map((ItemRequest itemRequest) -> toItemRequestDto(itemRequest, itemService))
                 .collect(Collectors.toList());
     }
-
-
 }

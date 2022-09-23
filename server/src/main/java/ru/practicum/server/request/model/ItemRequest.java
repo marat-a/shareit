@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name="requests")
+@Table(name = "requests")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemRequest {
@@ -24,9 +24,7 @@ public class ItemRequest {
     @NotBlank
     private String description;
     @OneToOne
-    @JoinColumn (name="requestor_id")
+    @JoinColumn(name = "requestor_id")
     private User requestor;
     private LocalDateTime created;
-
-
 }
