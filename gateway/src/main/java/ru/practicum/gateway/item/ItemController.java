@@ -11,7 +11,8 @@ import ru.practicum.gateway.item.dto.NewCommentDTO;
 import ru.practicum.gateway.user.UserClient;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Controller
 @RequestMapping(path = "/items")
@@ -25,8 +26,8 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<Object> getItems(
             @RequestHeader("X-Sharer-User-Id") long userId,
-            @RequestParam(defaultValue = "0", required = false) @Min(value = 0, message = "From must be equal or more than 0") int from,
-            @RequestParam(defaultValue = "10", required = false) @Min(value = 1, message = "Size must be more than 0") int size) {
+            @RequestParam(defaultValue = "0", required = false) @PositiveOrZero(message = "From must be equal or more than 0") int from,
+            @RequestParam(defaultValue = "10", required = false) @Positive(message = "Size must be more than 0") int size) {
         log.info("Get items to owner с userId={}, from={}, size={}", userId, from, size);
         return itemClient.getItems(userId, from, size);
     }
@@ -57,8 +58,8 @@ public class ItemController {
     @GetMapping("/search")
     public ResponseEntity<Object> getItemsByText(@RequestHeader("X-Sharer-User-Id") Long userId,
                                                  @RequestParam String text,
-                                                 @RequestParam(defaultValue = "0", required = false) @Min(value = 0, message = "From must be equal or more than 0") int from,
-                                                 @RequestParam(defaultValue = "10", required = false) @Min(value = 1, message = "Size must be more than 0") int size) {
+                                                 @RequestParam(defaultValue = "0", required = false) @PositiveOrZero(message = "From must be equal or more than 0") int from,
+                                                 @RequestParam(defaultValue = "10", required = false) @Positive(message = "Size must be more than 0") int size) {
         log.info("Search item by text \"{}\", userId = {}", text, userId);
         return itemClient.getItemsByText(userId, text, from, size);
     }
